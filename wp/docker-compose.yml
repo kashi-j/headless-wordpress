@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+  wp_next_db:
+    image: mysql:8.0
+    container_name: wp_next_mysql8
+    volumes:
+      - type: volume
+        source: wp_next_data
+        target: "/var/lib/mysql"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+    ports:
+      - "9308:3306"
+
+  wp_next_wordpress:
+    depends_on:
+      - wp_next_db
+    image: wordpress:6.4.3
+    container_name: wp_next_wordpress
+    ports:
+      - 10199:80
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: wp_next_db:3306
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PASS}
+      WORDPRESS_DB_NAME: ${DB_NAME}
+      WORDPRESS_DEBUG: 1
+    volumes:
+      - type: bind
+        source: "./wp-next-theme"
+        target: "/var/www/html/wp-content/themes/wp-next-theme"
+      - type: bind
+        source: "./php.ini"
+        target: "/usr/local/etc/php/php.ini"
+      - type: bind
+        source: "./wp-install.sh"
+        target: "/tmp/wp-install.sh"
+volumes:
+  wp_next_data:
