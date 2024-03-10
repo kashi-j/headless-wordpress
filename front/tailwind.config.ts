@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      width: {
+        'main': 'clamp(0vw, 1000px, 90vw)'
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
