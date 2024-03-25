@@ -8,7 +8,7 @@ import PostOnListType from "@/types/PostOnListType";
 // service
 import PostService from "../../../services/PostService";
 // hook
-import UsePostListSwr from "../../../hooks/swr/usePostListSwr";
+import UsePostListSwr from "../../../hooks/swr/UsePostListSwr";
 // component
 import Layout from "../../../components/templates/Layout";
 import PostBox from "../../../components/molecules/PostBox";

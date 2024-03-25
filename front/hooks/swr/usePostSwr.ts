@@ -12,13 +12,19 @@ import PostService from "../../services/PostService";
 // 第3引数：fallbackDataキーに初期値を設定
 
 // ※dataキーの値が更新値なるため、更新値を返す
-const usePostSwr = ({ id, staticPost }: { id: string, staticPost: PostType }) => {
+const UsePostSwr = ({
+  id,
+  staticPost,
+}: {
+  id: string;
+  staticPost: PostType;
+}) => {
   const { data: post } = useSWR(
     [WpGraphQlPostConst.one, id],
-    () => PostService.getOne({id}),
+    () => PostService.getOne({ id }),
     { fallbackData: staticPost }
   );
   return post;
 };
 
-export default usePostSwr;
+export default UsePostSwr;

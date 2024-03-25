@@ -4,7 +4,7 @@ import PostType from "@/types/PostType";
 // service
 import PostService from "../../services/PostService";
 // hook
-import usePostSwr from "@/hooks/swr/usePostSwr";
+import UsePostSwr from "@/hooks/swr/UsePostSwr";
 // component
 import Layout from "../../components/templates/Layout";
 import CommonImage from "@/components/atoms/image/CommonImage";
@@ -13,11 +13,11 @@ import DateText from "@/components/atoms/text/DateText";
 import PostHeading from "@/components/atoms/text/PostHeading";
 import Link from "next/link";
 
-const Post: NextPage<{ slug: string, staticPost: PostType }> = ({
+const Post: NextPage<{ slug: string; staticPost: PostType }> = ({
   slug,
   staticPost,
 }) => {
-  const post = usePostSwr({ id: slug, staticPost });
+  const post = UsePostSwr({ id: slug, staticPost });
   return (
     <Layout>
       <div className="w-main mx-auto">
@@ -56,12 +56,12 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({
-  params
+  params,
 }: {
   params: {
     slug: string;
-  }
-  }) {
+  };
+}) {
   const slug = params.slug;
   const staticPost = await PostService.getOne({ id: slug });
   if (!staticPost) {
