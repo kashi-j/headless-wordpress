@@ -187,3 +187,6 @@ npm run dev
 npm run build
 npm run start
 ```
+
+# サイトイメージ
+![screencapture-localhost-3000-2024-03-26-02_24_01 (1)](https://github.com/kashi-j/headless-wordpress/assets/69555348/6af9f316-da70-4493-a9c7-2d7a579324a7)
