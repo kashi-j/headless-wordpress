@@ -8,7 +8,7 @@ import PostOnListType from "@/types/PostOnListType";
 // service
 import PostService from "../../../services/PostService";
 // hook
-import usePostListSwr from "../../../hooks/swr/usePostListSwr";
+import UsePostListSwr from "../../../hooks/swr/usePostListSwr";
 // component
 import Layout from "../../../components/templates/Layout";
 import PostBox from "../../../components/molecules/PostBox";
@@ -22,14 +22,20 @@ const Home: NextPage<{
   staticTotal: number;
   staticCategoryId: number | null;
   staticCategorySlug: string | null;
-}> = ({ staticPostList, currentPage, staticTotal, staticCategoryId, staticCategorySlug}) => {
+}> = ({
+  staticPostList,
+  currentPage,
+  staticTotal,
+  staticCategoryId,
+  staticCategorySlug,
+}) => {
   const categoryId = staticCategoryId ?? undefined;
   const categorySlug = staticCategorySlug ?? undefined;
-  const [postList, total] = usePostListSwr({
+  const [postList, total] = UsePostListSwr({
     currentPage,
     staticPostList,
     staticTotal,
-    categoryId
+    categoryId,
   });
 
   return (
@@ -49,7 +55,7 @@ const Home: NextPage<{
           total={total}
           sizePerPage={PostConst.sizePerPage}
           currentPage={currentPage}
-          path={ categorySlug ? `/category/${categorySlug}/page` : '/page'}
+          path={categorySlug ? `/category/${categorySlug}/page` : "/page"}
         />
       </main>
     </Layout>
@@ -95,7 +101,7 @@ export async function getStaticProps({
       staticTotal,
       currentPage,
       staticCategoryId: categoryId ?? null,
-      staticCategorySlug: categorySlug ?? null
+      staticCategorySlug: categorySlug ?? null,
     },
     revalidate: 10,
   };

@@ -3,7 +3,16 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: process.env.ALLOWED_IMAGE_HOST.split(','),
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost'
+      },
+      {
+        protocol: 'https',
+        hostname: 'tailwindui.com'
+      }
+    ],
     dangerouslyAllowSVG: true
   },
   async rewrites() {

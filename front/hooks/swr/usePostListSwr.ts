@@ -12,28 +12,28 @@ import PostService from "../../services/PostService";
 // 第3引数：fallbackDataキーに初期値を設定
 
 // ※dataキーの値が更新値なるため、更新値を返す
-const usePostListSwr = ({
+const UsePostListSwr = ({
   currentPage,
   categoryId,
   staticPostList,
-  staticTotal
+  staticTotal,
 }: {
-  currentPage: number,
-  categoryId?: number,
-  staticPostList: PostOnListType[],
-  staticTotal: number
+  currentPage: number;
+  categoryId?: number;
+  staticPostList: PostOnListType[];
+  staticTotal: number;
 }) => {
   let key, fetcher;
   key = categoryId
     ? [WpGraphQlPostConst.listBycategory, currentPage, categoryId]
     : [WpGraphQlPostConst.list, currentPage];
   fetcher = categoryId
-    ? () => PostService.getList({ page:currentPage, categoryId })
-    : () => PostService.getList({ page:currentPage });
+    ? () => PostService.getList({ page: currentPage, categoryId })
+    : () => PostService.getList({ page: currentPage });
   const { data } = useSWR<[PostOnListType[], number]>(key, fetcher, {
     fallbackData: [staticPostList, staticTotal],
   });
   return data ?? [staticPostList, staticTotal];
 };
 
-export default usePostListSwr;
+export default UsePostListSwr;
