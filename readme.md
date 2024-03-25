@@ -173,14 +173,15 @@ chown -R www-data:www-data /var/www/html/wp-content/plugins/*
 
 記事情報の反映には ISR×SWR を採用しており、即時反映が可能となっている。
 
-開発モード
-
+◾️開発モード
+fetchが失敗する場合、APIのエンドポイントへアクセスできるかを確認する。
+できない場合、wordpressの設定が反映されていない可能性がある。一度wordpressの設定まわりを更新しておくとよい。（一般、パーマリンク、プラグインの設定等）
 ```
 cd front
 npm run dev
 ```
 
-ビルド
+◾️ビルド
 
 ```
 npm run build
