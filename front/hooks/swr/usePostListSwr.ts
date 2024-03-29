@@ -12,7 +12,7 @@ import PostService from "../../services/PostService";
 // 第3引数：fallbackDataキーに初期値を設定
 
 // ※dataキーの値が更新値なるため、更新値を返す
-const UsePostListSwr = ({
+const usePostListSwr = ({
   currentPage,
   categoryId,
   staticPostList,
@@ -36,4 +36,4 @@ const UsePostListSwr = ({
   return data ?? [staticPostList, staticTotal];
 };
 
-export default UsePostListSwr;
+export default usePostListSwr;

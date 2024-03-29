@@ -7,7 +7,7 @@ import PostOnListType from "@/types/PostOnListType";
 // service
 import PostService from "../../../services/PostService";
 // hook
-import UsePostListSwr from "../../../hooks/swr/UsePostListSwr";
+import usePostListSwr from "../../../hooks/swr/usePostListSwr";
 // component
 import Layout from "../../../components/templates/Layout";
 import PostBox from "../../../components/molecules/PostBox";
@@ -30,7 +30,7 @@ const Home: NextPage<{
 }) => {
   const categoryId = staticCategoryId ?? undefined;
   const categorySlug = staticCategorySlug ?? undefined;
-  const [postList, total] = UsePostListSwr({
+  const [postList, total] = usePostListSwr({
     currentPage,
     staticPostList,
     staticTotal,

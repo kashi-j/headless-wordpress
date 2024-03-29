@@ -31,8 +31,8 @@ DocumentRoot
 │   │   └── WpGraphQlConst.ts  
 │   ├── hooks  
 │   │   └── swr  
-│   │   ├── UsePostListSwr.ts  
-│   │   └── UsePostSwr.ts  
+│   │   ├── usePostListSwr.ts  
+│   │   └── usePostSwr.ts  
 │   ├── next-env.d.ts  
 │   ├── next.config.mjs  
 │   ├── node_modules  
@@ -173,15 +173,16 @@ chown -R www-data:www-data /var/www/html/wp-content/plugins/*
 
 記事情報の反映には ISR×SWR を採用しており、即時反映が可能となっている。
 
-◾️開発モード
-fetchが失敗する場合、APIのエンドポイントへアクセスできるかを確認する。
-できない場合、wordpressの設定が反映されていない可能性がある。一度wordpressの設定まわりを更新しておくとよい。（一般、パーマリンク、プラグインの設定等）
+◾️ 開発モード
+fetch が失敗する場合、API のエンドポイントへアクセスできるかを確認する。
+できない場合、wordpress の設定が反映されていない可能性がある。一度 wordpress の設定まわりを更新しておくとよい。（一般、パーマリンク、プラグインの設定等）
+
 ```
 cd front
 npm run dev
 ```
 
-◾️ビルド
+◾️ ビルド
 
 ```
 npm run build
@@ -189,4 +190,5 @@ npm run start
 ```
 
 # サイトイメージ
+
 ![screencapture-localhost-3000-2024-03-26-02_24_01 (1)](https://github.com/kashi-j/headless-wordpress/assets/69555348/6af9f316-da70-4493-a9c7-2d7a579324a7)

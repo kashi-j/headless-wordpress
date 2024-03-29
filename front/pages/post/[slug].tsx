@@ -4,7 +4,7 @@ import PostType from "../../types/PostType";
 // service
 import PostService from "../../services/PostService";
 // hook
-import UsePostSwr from "../../hooks/swr/UsePostSwr";
+import usePostSwr from "../../hooks/swr/usePostSwr";
 // component
 import Layout from "../../components/templates/Layout";
 import CommonImage from "../../components/atoms/image/CommonImage";
@@ -17,7 +17,7 @@ const Post: NextPage<{ slug: string; staticPost: PostType }> = ({
   slug,
   staticPost,
 }) => {
-  const post = UsePostSwr({ id: slug, staticPost });
+  const post = usePostSwr({ id: slug, staticPost });
   return (
     <Layout>
       <div className="w-main mx-auto">

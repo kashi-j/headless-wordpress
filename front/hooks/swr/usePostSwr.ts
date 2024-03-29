@@ -12,7 +12,7 @@ import PostService from "../../services/PostService";
 // 第3引数：fallbackDataキーに初期値を設定
 
 // ※dataキーの値が更新値なるため、更新値を返す
-const UsePostSwr = ({
+const usePostSwr = ({
   id,
   staticPost,
 }: {
@@ -27,4 +27,4 @@ const UsePostSwr = ({
   return post;
 };
 
-export default UsePostSwr;
+export default usePostSwr;
