@@ -96,10 +96,10 @@ class PostService {
       pageList.forEach((page: number) => {
         allPageAndCategoryList.push({
           params: {
-            param: ['category',categorySlug, 'page', page.toString()]
-          }
-        })
-      })
+            param: ["category", categorySlug, "page", page.toString()],
+          },
+        });
+      });
     });
     return allPageAndCategoryList;
   }
@@ -155,8 +155,8 @@ class PostService {
       size: PostConst.sizePerPage,
     };
   }
-  
-  private static _makePageList(total : number) {
+
+  private static _makePageList(total: number) {
     const pageTotal = Math.ceil(total / PostConst.sizePerPage);
     return [...Array(pageTotal)].map((_, i) => i + 1); // [1,2,3,...]
   }

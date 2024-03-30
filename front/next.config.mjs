@@ -5,37 +5,40 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: 'localhost'
+        protocol: "http",
+        hostname: "localhost",
       },
       {
-        protocol: 'https',
-        hostname: 'tailwindui.com'
-      }
+        protocol: "http",
+        hostname: process.env.NEXT_PUBLIC_HOSTNAME,
+      },
+      {
+        protocol: "https",
+        hostname: "tailwindui.com",
+      },
     ],
-    dangerouslyAllowSVG: true
+    dangerouslyAllowSVG: true,
   },
   async rewrites() {
     return [
       {
-        source: '/',
-        destination: '/post/params/page/1'
+        source: "/",
+        destination: "/post/params/page/1",
       },
       {
-        source: '/page/:page',
-        destination: '/post/params/page/:page'
+        source: "/page/:page",
+        destination: "/post/params/page/:page",
       },
       {
-        source: '/category/:category',
-        destination: '/post/params/category/:category/page/1'
+        source: "/category/:category",
+        destination: "/post/params/category/:category/page/1",
       },
       {
-        source: '/category/:category/page/:page',
-        destination: '/post/params/category/:category/page/:page'
-      }
-    ]
-  }
-
+        source: "/category/:category/page/:page",
+        destination: "/post/params/category/:category/page/:page",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
