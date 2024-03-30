@@ -9,7 +9,7 @@ const nextConfig = {
         hostname: "localhost",
       },
       {
-        protocol: "http",
+        protocol: "https",
         hostname: process.env.NEXT_PUBLIC_HOSTNAME,
       },
       {
