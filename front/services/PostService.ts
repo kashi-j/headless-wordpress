@@ -60,7 +60,6 @@ class PostService {
             name: data.node.categories.edges[0].node.name,
           },
         };
-        console.log(post);
         return post;
       });
       const total = res.data.data.posts.pageInfo.offsetPagination.total;
