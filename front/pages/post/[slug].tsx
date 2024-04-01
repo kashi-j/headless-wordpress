@@ -12,11 +12,16 @@ import CategoryLabel from "../../components/atoms/label/CategoryLabel";
 import DateText from "../../components/atoms/text/DateText";
 import PostHeading from "../../components/atoms/text/PostHeading";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Post: NextPage<{ slug: string; staticPost: PostType }> = ({
   slug,
   staticPost,
 }) => {
+  const router = useRouter();
+  if (router.isFallback) {
+    return <h3>loading...</h3>;
+  }
   const post = usePostSwr({ id: slug, staticPost });
   return (
     <Layout>
@@ -51,7 +56,7 @@ export async function getStaticPaths() {
   const paths = await PostService.getAllSlugList();
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
 
