@@ -20,7 +20,13 @@ const Post: NextPage<{ slug: string; staticPost: PostType }> = ({
 }) => {
   const router = useRouter();
   if (router.isFallback) {
-    return <h3>loading...</h3>;
+    return (
+      <Layout>
+        <div className="w-main mx-auto">
+          <h3 className="text-center">loading...</h3>
+        </div>
+      </Layout>
+    )
   }
   const post = usePostSwr({ id: slug, staticPost });
   return (
