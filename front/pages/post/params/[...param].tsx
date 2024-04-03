@@ -12,6 +12,8 @@ import usePostListSwr from "../../../hooks/swr/usePostListSwr";
 import Layout from "../../../components/templates/Layout";
 import PostBox from "../../../components/molecules/PostBox";
 import Pagination from "../../../components/molecules/Pagination";
+import Head from "next/head";  // 追記
+import SiteInfoConst from "../../../constants/SiteInfoConst";
 
 const notoSansJP = Noto_Sans_JP({ subsets: ["latin"], weight: ["400"] });
 
@@ -36,28 +38,33 @@ const Home: NextPage<{
     staticTotal,
     categoryId,
   });
-
+  const siteTitle = `記事一覧 ${staticCategorySlug ? ":" + staticCategorySlug : ""}`;
   return (
-    <Layout hidePt>
-      <main className={`${notoSansJP.className}`}>
-        <div className="flex flex-wrap w-main mx-auto">
-          {postList!.map((post) => (
-            <div
-              key={post.id}
-              className="w-1/3 pr-4 pb-4 [&:nth-of-type(3n)]:pr-0"
-            >
-              <PostBox post={post} />
-            </div>
-          ))}
-        </div>
-        <Pagination
-          total={total}
-          sizePerPage={PostConst.sizePerPage}
-          currentPage={currentPage}
-          path={categorySlug ? `/category/${categorySlug}/page` : "/page"}
-        />
-      </main>
-    </Layout>
+    <>
+      <Head>
+        <title>{`${siteTitle} | ${SiteInfoConst.siteName}`}</title>
+      </Head>
+      <Layout hidePt>
+        <main className={`${notoSansJP.className}`}>
+          <div className="flex flex-wrap w-main mx-auto">
+            {postList!.map((post) => (
+              <div
+                key={post.id}
+                className="w-1/3 pr-4 pb-4 [&:nth-of-type(3n)]:pr-0"
+              >
+                <PostBox post={post} />
+              </div>
+            ))}
+          </div>
+          <Pagination
+            total={total}
+            sizePerPage={PostConst.sizePerPage}
+            currentPage={currentPage}
+            path={categorySlug ? `/category/${categorySlug}/page` : "/page"}
+          />
+        </main>
+      </Layout>
+    </>
   );
 };
 
