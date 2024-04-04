@@ -3,33 +3,43 @@ import Repository from "./Repository";
 import OffsetPaginationType from "../types/OffsetPaginationType";
 
 class PostRepository {
-  static getList({ offsetPagination, categoryId }: {
-    offsetPagination: OffsetPaginationType, categoryId?: number }) {
+  // ページネーション情報を含んだデフォルトの記事リストを取得
+  static getList({
+    offsetPagination,
+    categoryId,
+  }: {
+    offsetPagination: OffsetPaginationType;
+    categoryId?: number;
+  }) {
     if (categoryId) {
       return Repository(WpGraphQlPostConst.listBycategory, {
         variables: { offsetPagination, categoryId },
       }).getWp();
     }
     return Repository(WpGraphQlPostConst.list, {
-      variables: {offsetPagination}
+      variables: { offsetPagination },
     }).getWp();
   }
+  // デフォルト投稿1件取得
   static getOne({ id }: { id: string }) {
     return Repository(WpGraphQlPostConst.one, { variables: { id } }).getWp();
   }
+  // デフォルト投稿の特定カテゴリに該当する記事スラッグリスト取得
   static getAllSlugList() {
     return Repository(WpGraphQlPostConst.allSlugList).getWp();
   }
+  // デフォルト投稿のカテゴリのスラッグリスト取得
   static getAllCategorySlugList() {
     return Repository(WpGraphQlPostConst.allCategorySlugList).getWp();
   }
-  static getCategoryIdBySlug({ slug }: {
-    slug: string
-  } ) {
+  // デフォルト投稿の特定のカテゴリスラッグ(引数)からカテゴリIDを取得
+  // ここで取得したIDは記事を情報の取得で使用する
+  static getCategoryIdBySlug({ slug }: { slug: string }) {
     return Repository(WpGraphQlPostConst.categoryIdBySlug, {
-      variables: { id: slug }
+      variables: { id: slug },
     }).getWp();
   }
+  // デフォルト投稿の記事総数を取得
   static getTotal() {
     return Repository(WpGraphQlPostConst.total).getWp();
   }

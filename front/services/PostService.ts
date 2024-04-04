@@ -8,6 +8,7 @@ import OffsetPaginationType from "../types/OffsetPaginationType";
 import RepositoryFactory from "../repositories/RepositoryFactory";
 
 class PostService {
+  // デフォルト投稿1件取得
   static async getOne({ id }: { id: string }): Promise<PostType | null> {
     try {
       const res = await RepositoryFactory.post.getOne({ id });
@@ -32,6 +33,7 @@ class PostService {
     }
   }
 
+  // ページネーション情報を含んだデフォルトの記事リストを取得
   static async getList({
     page,
     categoryId,
@@ -68,7 +70,7 @@ class PostService {
       return [[], 0];
     }
   }
-
+  // デフォルト投稿の特定カテゴリに該当する記事スラッグリスト取得
   static async getAllSlugList(): Promise<{ params: { slug: string } }[]> {
     try {
       const res = await RepositoryFactory.post.getAllSlugList();
@@ -80,6 +82,7 @@ class PostService {
     }
   }
 
+  // デフォルト投稿のページ情報とカテゴリーを取得
   static async getAllPageAndCategoryList() {
     const total = await this.getTotal();
     const pageList = this._makePageList(total);
@@ -133,6 +136,8 @@ class PostService {
   //   return paths;
   // }
 
+  // デフォルト投稿の特定のカテゴリスラッグ(引数)からカテゴリIDを取得
+  // ここで取得したIDは記事を情報の取得で使用する
   static async getCategoryIdBySlug({
     slug,
   }: {
