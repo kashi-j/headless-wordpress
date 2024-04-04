@@ -7,7 +7,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
     <Head>
-      <title>foo | sitename</title>
+        <title>{`catch copy | ${SiteInfoConst.siteName}`}</title>
     </Head>
     < Component {...pageProps } />;
     </>
