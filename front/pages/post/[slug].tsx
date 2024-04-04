@@ -13,6 +13,7 @@ import DateText from "../../components/atoms/text/DateText";
 import PostHeading from "../../components/atoms/text/PostHeading";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Loading from "../../components/molecules/Loading";
 
 const Post: NextPage<{ slug: string; staticPost: PostType }> = ({
   slug,
@@ -23,10 +24,10 @@ const Post: NextPage<{ slug: string; staticPost: PostType }> = ({
     return (
       <Layout>
         <div className="w-main mx-auto">
-          <h3 className="text-center">loading...</h3>
+          <Loading></Loading>
         </div>
       </Layout>
-    )
+    );
   }
   const post = usePostSwr({ id: slug, staticPost });
   return (
