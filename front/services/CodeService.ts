@@ -7,12 +7,12 @@ import OffsetPaginationType from "../types/OffsetPaginationType";
 // repository
 import RepositoryFactory from "../repositories/RepositoryFactory";
 
-class PostService {
-  // デフォルト投稿1件取得
+class CodeService {
+  // code投稿1件取得
   static async getOne({ id }: { id: string }): Promise<PostType | null> {
     try {
-      const res = await RepositoryFactory.post.getOne({ id });
-      const data = res.data.data.post;
+      const res = await RepositoryFactory.code.getOne({ id });
+      const data = res.data.data.code;
       const post: PostType = {
         id: data.id,
         title: data.title,
@@ -23,8 +23,8 @@ class PostService {
           url: data.featuredImage.node.sourceUrl,
         },
         category: {
-          slug: data.categories.edges[0].node.slug,
-          name: data.categories.edges[0].node.name,
+          slug: data.codeCategories.edges[0].node.slug,
+          name: data.codeCategories.edges[0].node.name,
         },
       };
       return post;
@@ -33,48 +33,50 @@ class PostService {
     }
   }
 
-  // ページネーション情報を含んだデフォルトの記事リストを取得
+  // ページネーション情報を含んだcodeの記事リストを取得
   static async getList({
     page,
-    categoryId,
+    // categoryId,
+    categorySlug,
   }: {
     page: number;
-    categoryId?: number;
+    // categoryId?: number;
+    categorySlug?: string;
   }): Promise<[PostOnListType[], number]> {
     try {
       const offsetPagination = this._makeOffsetPaginationFromPage(page);
-      const res = await RepositoryFactory.post.getList({
+      const res = await RepositoryFactory.code.getList({
         offsetPagination,
-        categoryId,
+        categorySlug,
       });
-      const postList = res.data.data.posts.edges.map((data: any) => {
+      const postList = res.data.data.codes.edges.map((data: any) => {
         const post: PostOnListType = {
           id: data.node.id,
           title: data.node.title,
           slug: data.node.slug,
           date: data.node.date,
-          excerpt: data.node.excerpt,
+          excerpt: data.node.content,
           featuredImage: {
             url: data.node.featuredImage.node.sourceUrl,
           },
           category: {
-            slug: data.node.categories.edges[0].node.slug,
-            name: data.node.categories.edges[0].node.name,
+            slug: data.node.codeCategories.edges[0].node.slug,
+            name: data.node.codeCategories.edges[0].node.name,
           },
         };
         return post;
       });
-      const total = res.data.data.posts.pageInfo.offsetPagination.total;
+      const total = res.data.data.codes.pageInfo.offsetPagination.total;
       return [postList, total];
     } catch {
       return [[], 0];
     }
   }
-  // デフォルト投稿タイプのすべての記事のスラッグリスト取得
+  // code投稿タイプのすべての記事のスラッグリスト取得
   static async getAllSlugList(): Promise<{ params: { slug: string } }[]> {
     try {
-      const res = await RepositoryFactory.post.getAllSlugList();
-      return res.data.data.posts.edges.map((data: any) => ({
+      const res = await RepositoryFactory.code.getAllSlugList();
+      return res.data.data.codes.edges.map((data: any) => ({
         params: { slug: data.node.slug },
       }));
     } catch {
@@ -82,7 +84,7 @@ class PostService {
     }
   }
 
-  // デフォルト投稿のページ情報とカテゴリーを取得
+  // code投稿のページ情報とカテゴリーを取得
   static async getAllPageAndCategoryList() {
     const total = await this.getTotal();
     const pageList = this._makePageList(total);
@@ -91,10 +93,10 @@ class PostService {
       return { params: { param: ["page", page.toString()] } };
     });
     // カテゴリ別一覧
-    const res = await RepositoryFactory.post.getAllCategorySlugList();
-    res.data.data.categories.edges.map((data: any) => {
+    const res = await RepositoryFactory.code.getAllCategorySlugList();
+    res.data.data.codeCategories.edges.map((data: any) => {
       const categorySlug = data.node.slug;
-      const total = data.node.posts.pageInfo.offsetPagination.total;
+      const total = data.node.codes.pageInfo.offsetPagination.total;
       const pageList = this._makePageList(total);
       pageList.forEach((page: number) => {
         allPageAndCategoryList.push({
@@ -107,49 +109,20 @@ class PostService {
     return allPageAndCategoryList;
   }
 
-  // static async getAllCategorySlugList(): Promise<
-  //   { params: { slug: string } }[]
-  // > {
-  //   try {
-  //     const res = await RepositoryFactory.post.getAllCategorySlugList();
-  //     return res.data.data.categories.edges.map((data: any) => ({
-  //       params: { slug: data.node.slug },
-  //     }));
-  //   } catch {
-  //     return [];
-  //   }
-  // }
-
-  // static async getAllPageList(): Promise<
-  //   {
-  //     params: {
-  //       page: string;
-  //     };
-  //   }[]
-  // > {
-  //   const total = await this.getTotal();
-  //   const pageTotal = Math.ceil(total / PostConst.sizePerPage);
-  //   const pageList = [...Array(pageTotal)].map((_, i) => i + 1); // [1,2,3,...]
-  //   const paths = pageList.map((page: number) => {
-  //     return { params: { page: page.toString() } };
-  //   });
-  //   return paths;
-  // }
-
-  // デフォルト投稿の特定のカテゴリスラッグ(引数)からカテゴリIDを取得
+  // code投稿の特定のカテゴリスラッグ(引数)からカテゴリIDを取得
   // ここで取得したIDは記事を情報の取得で使用する
   static async getCategoryIdBySlug({
     slug,
   }: {
     slug: string;
   }): Promise<number> {
-    const res = await RepositoryFactory.post.getCategoryIdBySlug({ slug });
-    return res.data.data.category.categoryId;
+    const res = await RepositoryFactory.code.getCategoryIdBySlug({ slug });
+    return res.data.data.codeCategory.codeCategoryId;
   }
 
   static async getTotal(): Promise<number> {
-    const res = await RepositoryFactory.post.getTotal();
-    return res.data.data.posts.pageInfo.offsetPagination.total;
+    const res = await RepositoryFactory.code.getTotal();
+    return res.data.data.codes.pageInfo.offsetPagination.total;
   }
 
   private static _makeOffsetPaginationFromPage(
@@ -167,4 +140,4 @@ class PostService {
   }
 }
 
-export default PostService;
+export default CodeService;

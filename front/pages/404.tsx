@@ -8,7 +8,7 @@ const Custom404: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Not Found | ${SiteInfoConst.siteName}`</title>
+        <title>{`Not Found | ${SiteInfoConst.siteName}}`}</title>
       </Head>
       <Layout hidePt>
         <main className={`${notoSansJP.className}`}>

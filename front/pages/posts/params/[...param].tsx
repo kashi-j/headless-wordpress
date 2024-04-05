@@ -52,7 +52,7 @@ const Home: NextPage<{
                 key={post.id}
                 className="w-1/3 pr-4 pb-4 [&:nth-of-type(3n)]:pr-0"
               >
-                <PostBox post={post} />
+                <PostBox post={post} postType="posts" />
               </div>
             ))}
           </div>
@@ -60,7 +60,7 @@ const Home: NextPage<{
             total={total}
             sizePerPage={PostConst.sizePerPage}
             currentPage={currentPage}
-            path={categorySlug ? `/category/${categorySlug}/page` : "/page"}
+            path={categorySlug ? `/posts/category/${categorySlug}/page` : "/posts/page"}
           />
         </main>
       </Layout>
@@ -87,9 +87,11 @@ export async function getStaticProps({
   let currentPage = 1;
   let categoryId: number | undefined;
   let categorySlug: string | undefined;
+  // 「page/ページ番号」の場合
   if (param.length === 2 && param[0] === "page") {
     currentPage = parseInt(param[1]);
   } else if (
+    // 「catagory/カテゴリー名/page/ページ番号」の場合
     param.length === 4 &&
     param[0] === "category" &&
     param[2] === "page"

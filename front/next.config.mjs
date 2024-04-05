@@ -21,21 +21,51 @@ const nextConfig = {
   },
   async rewrites() {
     return [
+      // デフォルト投稿
       {
         source: "/",
-        destination: "/post/params/page/1",
+        destination: "/posts/params/page/1",
       },
       {
         source: "/page/:page",
-        destination: "/post/params/page/:page",
+        destination: "/posts/params/page/:page",
       },
       {
         source: "/category/:category",
-        destination: "/post/params/category/:category/page/1",
+        destination: "/posts/params/category/:category/page/1",
+      },
+      {
+        source: "/posts/category/:category",
+        destination: "/posts/params/category/:category/page/1",
       },
       {
         source: "/category/:category/page/:page",
-        destination: "/post/params/category/:category/page/:page",
+        destination: "/posts/params/category/:category/page/:page",
+      },
+      {
+        source: "/posts/category/:category/page/:page",
+        destination: "/posts/params/category/:category/page/:page",
+      },
+      {
+        source: "/posts/page/:page",
+        destination: "/posts/params/page/:page",
+      },
+      // カスタム投稿タイプ code
+      {
+        source: "/codes",
+        destination: "/codes/params/page/1",
+      },
+      {
+        source: "/codes/page/:page",
+        destination: "/codes/params/page/:page",
+      },
+      {
+        source: "/codes/category/:category",
+        destination: "/codes/params/category/:category/page/1",
+      },
+      {
+        source: "/codes/category/:category/page/:page",
+        destination: "/codes/params/category/:category/page/:page",
       },
     ];
   },

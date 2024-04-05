@@ -12,7 +12,7 @@ const Layout: React.FC<{ children: ReactNode, hidePt?: boolean }> = ({ children,
       </div>
       <Footer />
     </div>
-  );
-};
+  )
+}
 
 export default Layout;
