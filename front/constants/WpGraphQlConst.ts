@@ -41,6 +41,27 @@ export class WpGraphQlPostConst {
     slug
     title
   `;
+  // manual投稿タイプ共通部分
+  private static _manualItemOnList = `
+    manualCategories {
+      edges {
+        node {
+          name
+          slug
+        }
+      }
+    }
+    date
+    content
+    featuredImage {
+      node {
+        sourceUrl
+      }
+    }
+    id
+    slug
+    title
+  `;
 
   // デフォルト投稿タイプ共通部分
   private static _itemOnOne = `
@@ -86,6 +107,29 @@ export class WpGraphQlPostConst {
     title
   `;
 
+  // manual投稿タイプ共通部分
+  private static _manualItemOnOne = `
+    manualCategories {
+      edges {
+        node {
+          name
+          slug
+        }
+      }
+    }
+    date
+    content
+    featuredImage {
+      node {
+        sourceUrl
+      }
+    }
+    id
+    slug
+    title
+  `;
+
+  // デフォルト投稿タイプ用
   static list = `
     query PostListQuery($offsetPagination: OffsetPagination!) {
       posts(where: {offsetPagination: $offsetPagination}) {
@@ -103,12 +147,31 @@ export class WpGraphQlPostConst {
     }
   `;
 
+  // code投稿タイプ用
   static codeList = `
     query PostListQuery($offsetPagination: OffsetPagination!) {
       codes(where: {offsetPagination: $offsetPagination}) {
         edges {
           node {
             ${this._codeItemOnList}
+          }
+        }
+        pageInfo {
+          offsetPagination {
+            total
+          }
+        }
+      }
+    }
+  `;
+
+  // manual投稿タイプ用
+  static manualList = `
+    query PostListQuery($offsetPagination: OffsetPagination!) {
+      manuals(where: {offsetPagination: $offsetPagination}) {
+        edges {
+          node {
+            ${this._manualItemOnList}
           }
         }
         pageInfo {
@@ -178,6 +241,43 @@ export class WpGraphQlPostConst {
     }
   `;
 
+  // manual投稿タイプ用
+  static manualListBycategory = `
+    query ManualListByCategoryQuery($offsetPagination: OffsetPagination!, $terms: [String]) {
+      manuals(
+        where: {offsetPagination: $offsetPagination, taxQuery: {taxArray: {taxonomy: MANUALCATEGORY, terms: $terms, operator: IN, field: SLUG}}}
+      ) {
+        edges {
+          node {
+            manualCategories {
+              edges {
+                node {
+                  name
+                  slug
+                }
+              }
+            }
+            date
+            content
+            featuredImage {
+              node {
+                sourceUrl
+              }
+            }
+            id
+            slug
+            title
+          }
+        }
+        pageInfo {
+          offsetPagination {
+            total
+          }
+        }
+      }
+    }
+  `;
+
   // WPGraphQLでは下記のように記載することで初期値を設定して試せる
   // query PostQuery($id: ID! = "スラッグ名") {… }
   // デフォルト投稿タイプ用
@@ -194,6 +294,15 @@ export class WpGraphQlPostConst {
     query PostQuery($id: ID!) {
       code(id: $id, idType: SLUG) {
         ${this._codeItemOnOne}
+      }
+    }
+  `;
+
+  // manual投稿タイプ用
+  static oneManual = `
+    query PostQuery($id: ID!) {
+      manual(id: $id, idType: SLUG) {
+        ${this._manualItemOnOne}
       }
     }
   `;
@@ -215,6 +324,19 @@ export class WpGraphQlPostConst {
   static allCodeSlugList = `
     query PostAllSlugListQuery {
       codes(first: 10000) {
+        edges {
+          node {
+            slug
+          }
+        }
+      }
+    }
+  `;
+
+  // manual投稿タイプ用
+  static allManualSlugList = `
+    query PostAllSlugListQuery {
+      manuals(first: 10000) {
         edges {
           node {
             slug
@@ -264,6 +386,26 @@ export class WpGraphQlPostConst {
     }
   `;
 
+  // manual投稿タイプ用
+  static allManualCategorySlugList = `
+    query PostAllCategorySlugListQuery {
+      manualCategories {
+        edges {
+          node {
+            slug
+            manuals {
+              pageInfo {
+                offsetPagination {
+                  total
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
   // デフォルト投稿タイプ用
   static categoryIdBySlug = `
     query PostCategoryIdBySlugQuery($id: ID!) {
@@ -277,6 +419,14 @@ export class WpGraphQlPostConst {
     query PostCategoryIdBySlugQuery($id: ID!) {
       codeCategory(id: $id, idType: SLUG) {
         codeCategoryId
+      }
+    }
+  `;
+  // manual投稿タイプ用
+  static manualCategoryIdBySlug = `
+    query PostCategoryIdBySlugQuery($id: ID!) {
+      manualCategory(id: $id, idType: SLUG) {
+        manualCategoryId
       }
     }
   `;
@@ -297,6 +447,18 @@ export class WpGraphQlPostConst {
   static codeTotal = `
     query PostTotalQuery {
       codes {
+        pageInfo {
+          offsetPagination {
+            total
+          }
+        }
+      }
+    }
+  `;
+  // manual投稿タイプ用
+  static manualTotal = `
+    query PostTotalQuery {
+      manuals {
         pageInfo {
           offsetPagination {
             total

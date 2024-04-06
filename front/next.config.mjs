@@ -50,6 +50,10 @@ const nextConfig = {
         source: "/posts/page/:page",
         destination: "/posts/params/page/:page",
       },
+      {
+        source: "/posts",
+        destination: "/posts/params/page/1",
+      },
       // カスタム投稿タイプ code
       {
         source: "/codes",
@@ -66,6 +70,23 @@ const nextConfig = {
       {
         source: "/codes/category/:category/page/:page",
         destination: "/codes/params/category/:category/page/:page",
+      },
+      // カスタム投稿タイプ manual
+      {
+        source: "/manuals",
+        destination: "/manuals/params/page/1",
+      },
+      {
+        source: "/manuals/page/:page",
+        destination: "/manuals/params/page/:page",
+      },
+      {
+        source: "/manuals/category/:category",
+        destination: "/manuals/params/category/:category/page/1",
+      },
+      {
+        source: "/manuals/category/:category/page/:page",
+        destination: "/manuals/params/category/:category/page/:page",
       },
     ];
   },

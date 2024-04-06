@@ -27,7 +27,7 @@ const PostBox: React.FC<{ post: PostOnListType, postType: string }> = ({ post, p
           <DateText>{post.date}</DateText>
         </div>
         <div className="mb-2">
-          <Link href={`/post/${post.slug}`}>
+          <Link href={`/${postType}/${post.slug}`}>
             <ArticleOnListHeading>{post.title}</ArticleOnListHeading>
           </Link>
         </div>
