@@ -55,7 +55,7 @@ class CodeService {
           title: data.node.title,
           slug: data.node.slug,
           date: data.node.date,
-          excerpt: data.node.content,
+          excerpt: data.node.excerpt,
           featuredImage: {
             url: data.node.featuredImage.node.sourceUrl,
           },

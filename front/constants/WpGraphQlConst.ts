@@ -31,7 +31,7 @@ export class WpGraphQlPostConst {
       }
     }
     date
-    content
+    excerpt
     featuredImage {
       node {
         sourceUrl
@@ -52,7 +52,7 @@ export class WpGraphQlPostConst {
       }
     }
     date
-    content
+    excerpt
     featuredImage {
       node {
         sourceUrl
