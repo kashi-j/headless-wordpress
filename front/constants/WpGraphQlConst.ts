@@ -221,7 +221,7 @@ export class WpGraphQlPostConst {
               }
             }
             date
-            content
+            excerpt
             featuredImage {
               node {
                 sourceUrl
@@ -349,7 +349,7 @@ export class WpGraphQlPostConst {
   // デフォルト投稿タイプ用
   static allCategorySlugList = `
     query PostAllCategorySlugListQuery {
-      categories {
+      categories(first: 1000) {
         edges {
           node {
             slug
@@ -369,7 +369,7 @@ export class WpGraphQlPostConst {
   // code投稿タイプ用
   static allCodeCategorySlugList = `
     query PostAllCategorySlugListQuery {
-      codeCategories {
+      codeCategories(first: 1000) {
         edges {
           node {
             slug
@@ -389,7 +389,7 @@ export class WpGraphQlPostConst {
   // manual投稿タイプ用
   static allManualCategorySlugList = `
     query PostAllCategorySlugListQuery {
-      manualCategories {
+      manualCategories(first: 1000) {
         edges {
           node {
             slug

@@ -2,7 +2,7 @@
 import PostConst from "../constants/PostConst";
 // type
 import PostType from "../types/PostType";
-import PostOnListType from "@/types/PostOnListType";
+import PostOnListType from "../types/PostOnListType";
 import OffsetPaginationType from "../types/OffsetPaginationType";
 // repository
 import RepositoryFactory from "../repositories/RepositoryFactory";

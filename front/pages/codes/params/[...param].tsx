@@ -12,7 +12,7 @@ import useCodeListSwr from "../../../hooks/swr/useCodeListSwr";
 import Layout from "../../../components/templates/Layout";
 import PostBox from "../../../components/molecules/PostBox";
 import Pagination from "../../../components/molecules/Pagination";
-import Head from "next/head";  // 追記
+import Head from "next/head"; // 追記
 import SiteInfoConst from "../../../constants/SiteInfoConst";
 
 const notoSansJP = Noto_Sans_JP({ subsets: ["latin"], weight: ["400"] });
@@ -21,16 +21,9 @@ const Home: NextPage<{
   staticPostList: PostOnListType[];
   currentPage: number;
   staticTotal: number;
-  // staticCategoryId: number | null;
   staticCategorySlug: string | null;
-}> = ({
-  staticPostList,
-  currentPage,
-  staticTotal,
-  staticCategorySlug,
-}) => {
+}> = ({ staticPostList, currentPage, staticTotal, staticCategorySlug }) => {
   const categorySlug = staticCategorySlug ?? undefined;
-
   const [postList, total] = useCodeListSwr({
     currentPage,
     staticPostList,
@@ -38,7 +31,9 @@ const Home: NextPage<{
     categorySlug,
   });
 
-  const siteTitle = `記事一覧 ${staticCategorySlug ? ":" + staticCategorySlug : ""}`;
+  const siteTitle = `記事一覧 ${
+    staticCategorySlug ? ":" + staticCategorySlug : ""
+  }`;
   return (
     <>
       <Head>
@@ -72,7 +67,6 @@ export async function getStaticPaths() {
   const paths = await CodeService.getAllPageAndCategoryList();
   return {
     paths,
-    // fallback: true,
     fallback: false,
   };
 }
