@@ -33,20 +33,11 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="bg-white">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
-        <div className="flex lg:flex-1">
-          <Link href="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">Your Company</span>
-            <Image
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt=""
-              width="38"
-              height="32"
-              className="h-8 w-auto"
-            />
-          </Link>
-        </div>
+    <header className="bg-white border-b-2 border-b-gray-200">
+      <nav
+        className="mx-auto flex max-w-7xl items-center justify-center p-6 pb-0 lg:px-8"
+        aria-label="Global"
+      >
         <div className="flex lg:hidden">
           <button
             type="button"
@@ -58,10 +49,13 @@ const Header = () => {
           </button>
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
-          <Popover className="relative">
+          <Popover className="relative pb-3 border-b-2 border-b-transparent hover:border-b-gray-800">
             <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
               Product
-              <ChevronDownIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
+              <ChevronDownIcon
+                className="h-5 w-5 flex-none text-gray-400"
+                aria-hidden="true"
+              />
             </Popover.Button>
 
             <Transition
@@ -81,10 +75,16 @@ const Header = () => {
                       className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
                     >
                       <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                        <item.icon className="h-6 w-6 text-gray-600 group-hover:text-indigo-600" aria-hidden="true" />
+                        <item.icon
+                          className="h-6 w-6 text-gray-600 group-hover:text-indigo-600"
+                          aria-hidden="true"
+                        />
                       </div>
                       <div className="flex-auto">
-                        <a href={item.href} className="block font-semibold text-gray-900">
+                        <a
+                          href={item.href}
+                          className="block font-semibold text-gray-900"
+                        >
                           {item.name}
                           <span className="absolute inset-0" />
                         </a>
@@ -100,7 +100,10 @@ const Header = () => {
                       href={item.href}
                       className="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100"
                     >
-                      <item.icon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
+                      <item.icon
+                        className="h-5 w-5 flex-none text-gray-400"
+                        aria-hidden="true"
+                      />
                       {item.name}
                     </a>
                   ))}
@@ -109,18 +112,32 @@ const Header = () => {
             </Transition>
           </Popover>
 
-          <a href="/posts" className="text-sm font-semibold leading-6 text-gray-900">
+          <a
+            href="/posts"
+            className="text-sm font-semibold leading-6 text-gray-900 pb-3 border-b-2 border-b-transparent hover:border-b-gray-800"
+          >
             Posts
           </a>
-          <a href="/codes" className="text-sm font-semibold leading-6 text-gray-900">
+          <a
+            href="/codes"
+            className="text-sm font-semibold leading-6 text-gray-900 pb-3 border-b-2 border-b-transparent hover:border-b-gray-800"
+          >
             Codes
           </a>
-          <a href="/manuals" className="text-sm font-semibold leading-6 text-gray-900">
+          <a
+            href="/manuals"
+            className="text-sm font-semibold leading-6 text-gray-900 pb-3 border-b-2 border-b-transparent hover:border-b-gray-800"
+          >
             Manuals
           </a>
         </Popover.Group>
       </nav>
-      <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
+      <Dialog
+        as="div"
+        className="lg:hidden"
+        open={mobileMenuOpen}
+        onClose={setMobileMenuOpen}
+      >
         <div className="fixed inset-0 z-10" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
@@ -152,7 +169,10 @@ const Header = () => {
                       <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
                         Product
                         <ChevronDownIcon
-                          className={classNames(open ? 'rotate-180' : '', 'h-5 w-5 flex-none')}
+                          className={classNames(
+                            open ? "rotate-180" : "",
+                            "h-5 w-5 flex-none"
+                          )}
                           aria-hidden="true"
                         />
                       </Disclosure.Button>
@@ -195,7 +215,7 @@ const Header = () => {
         </Dialog.Panel>
       </Dialog>
     </header>
-  )
+  );
 }
 
 export default Header

@@ -39,7 +39,7 @@ const Home: NextPage<{
       <Head>
         <title>{`${siteTitle} | ${SiteInfoConst.siteName}`}</title>
       </Head>
-      <Layout hidePt>
+      <Layout>
         <main className={`${notoSansJP.className}`}>
           <div className="flex flex-wrap w-main mx-auto">
             {postList!.map((post) => (
