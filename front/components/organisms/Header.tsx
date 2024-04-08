@@ -49,6 +49,30 @@ const Header = () => {
           </button>
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
+          <Link
+            href="/"
+            className="text-sm font-semibold leading-6 text-gray-900 pb-3 border-b-2 border-b-transparent hover:border-b-gray-800"
+          >
+            TOP
+          </Link>
+          <Link
+            href="/posts"
+            className="text-sm font-semibold leading-6 text-gray-900 pb-3 border-b-2 border-b-transparent hover:border-b-gray-800"
+          >
+            Posts
+          </Link>
+          <Link
+            href="/codes"
+            className="text-sm font-semibold leading-6 text-gray-900 pb-3 border-b-2 border-b-transparent hover:border-b-gray-800"
+          >
+            Codes
+          </Link>
+          <Link
+            href="/manuals"
+            className="text-sm font-semibold leading-6 text-gray-900 pb-3 border-b-2 border-b-transparent hover:border-b-gray-800"
+          >
+            Manuals
+          </Link>
           <Popover className="relative pb-3 border-b-2 border-b-transparent hover:border-b-gray-800">
             <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
               Product
@@ -111,25 +135,6 @@ const Header = () => {
               </Popover.Panel>
             </Transition>
           </Popover>
-
-          <a
-            href="/posts"
-            className="text-sm font-semibold leading-6 text-gray-900 pb-3 border-b-2 border-b-transparent hover:border-b-gray-800"
-          >
-            Posts
-          </a>
-          <a
-            href="/codes"
-            className="text-sm font-semibold leading-6 text-gray-900 pb-3 border-b-2 border-b-transparent hover:border-b-gray-800"
-          >
-            Codes
-          </a>
-          <a
-            href="/manuals"
-            className="text-sm font-semibold leading-6 text-gray-900 pb-3 border-b-2 border-b-transparent hover:border-b-gray-800"
-          >
-            Manuals
-          </a>
         </Popover.Group>
       </nav>
       <Dialog
