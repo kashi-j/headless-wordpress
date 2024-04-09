@@ -35,7 +35,7 @@ const Header = () => {
   return (
     <header className="bg-white border-b-2 border-b-gray-200">
       <nav
-        className="mx-auto flex max-w-7xl items-center justify-center p-6 pb-0 lg:px-8"
+        className="mx-auto flex max-w-7xl items-center justify-end lg:justify-center p-3 lg:p-6 lg:pb-0 lg:px-8"
         aria-label="Global"
       >
         <div className="flex lg:hidden">
