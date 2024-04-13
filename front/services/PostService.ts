@@ -174,10 +174,8 @@ class PostService {
   // card情報などはwordpressを参照させるため、書き換えない
   private static _replaceHostNameForSeo(headStrign: string) {
     const wpHost: string =
-      process.env.NEXT_PUBLIC_WP_HOSTNAME?.replace(
-        /[.*+?^${}()|[\]\\]/g,
-        "\\$&"
-      ) || "";
+      process.env.NEXT_PUBLIC_WP_URL?.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") ||
+      "";
     const nextHost: string =
       process.env.NEXT_PUBLIC_HOSTNAME?.replace(
         /[.*+?^${}()|[\]\\]/g,
