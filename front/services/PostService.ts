@@ -173,18 +173,13 @@ class PostService {
   // Yoast Seoのfullhead情報からホスト情報を書き換え
   // card情報などはwordpressを参照させるため、書き換えない
   private static _replaceHostNameForSeo(headStrign: string) {
-    const wpHost: string =
-      process.env.NEXT_PUBLIC_WP_URL?.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") ||
-      "";
-    const nextHost: string =
-      process.env.NEXT_PUBLIC_HOSTNAME?.replace(
-        /[.*+?^${}()|[\]\\]/g,
-        "\\$&"
-      ) || "";
+    const wpUrl: string = process.env.NEXT_PUBLIC_WP_URL || "";
+    const wpHost: string = process.env.NEXT_PUBLIC_WP_HOSTNAME || "";
+    const nextHost: string = process.env.NEXT_PUBLIC_HOSTNAME || "";
     const changedHead = headStrign
-      .replace(new RegExp(wpHost + "/wp-content", "g"), "temp-host")
+      .replace(new RegExp(wpUrl + "/wp-content", "g"), "temp-host")
       .replace(new RegExp(wpHost, "g"), nextHost)
-      .replace(new RegExp("temp-host", "g"), wpHost + "/wp-content");
+      .replace(new RegExp("temp-host", "g"), wpUrl + "/wp-content");
     return changedHead;
   }
 }
