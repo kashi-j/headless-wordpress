@@ -3,7 +3,7 @@ import { Noto_Sans_JP } from "next/font/google";
 import PostConst from "../../../constants/PostConst";
 // type
 import type { NextPage } from "next";
-import PostOnListType from "@/types/PostOnListType";
+import PostOnListType from "../../../types/PostOnListType";
 // service
 import ManualService from "../../../services/ManualService";
 // hook

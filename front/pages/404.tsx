@@ -1,7 +1,7 @@
 import { Noto_Sans_JP } from "next/font/google";
 import Head from "next/head";
 import Layout from "../components/templates/Layout";
-import SiteInfoConst from "@/constants/SiteInfoConst";
+import SiteInfoConst from "../constants/SiteInfoConst";
 const notoSansJP = Noto_Sans_JP({ subsets: ["latin"], weight: ["400"] });
 
 const Custom404: React.FC = () => {
