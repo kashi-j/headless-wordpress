@@ -80,7 +80,6 @@ export async function getStaticProps({
 }) {
   const param = params.param;
   let currentPage = 1;
-  let categoryId: number | undefined;
   let categorySlug: string | undefined;
   // 「page/ページ番号」の場合
   if (param.length === 2 && param[0] === "page") {

@@ -4,10 +4,44 @@ import PostConst from "../constants/PostConst";
 import PostType from "../types/PostType";
 import PostOnListType from "@/types/PostOnListType";
 import OffsetPaginationType from "../types/OffsetPaginationType";
+import SeoType from "../types/SeoType";
 // repository
 import RepositoryFactory from "../repositories/RepositoryFactory";
 
 class PostService {
+  static async getSeo({ slug }: { slug: string }) {
+    try {
+      const res = await RepositoryFactory.post.getSeo({ slug });
+      const data = res.data.data.page.seo;
+      const seoInfo: SeoType = {
+        metaFullHead: this._replaceHostNameForSeo(data.fullHead),
+      };
+      return seoInfo
+    } catch (error) {
+      throw new Error("Failed to fetch SEO data");
+    }
+  }
+
+  static async getSeoByCategorySlug({
+    slug,
+  }: {
+    slug: string;
+  }): Promise<SeoType> {
+    try {
+      const res = await RepositoryFactory.post.getSeoByCategorySlug({
+        slug,
+      });
+      const data = res.data.data.categories.edges[0].node.seo;
+      const seoInfo: SeoType = {
+        metaFullHead: this._replaceHostNameForSeo(data.fullHead),
+      };
+      return seoInfo;
+    } catch (error) {
+      console.error("Error fetching SEO data:", error);
+      // エラーが発生した場合は適切なエラーを返す
+      throw new Error("Failed to fetch SEO data");
+    }
+  }
   // デフォルト投稿1件取得
   static async getOne({ id }: { id: string }): Promise<PostType | null> {
     try {
@@ -26,6 +60,7 @@ class PostService {
           slug: data.categories.edges[0].node.slug,
           name: data.categories.edges[0].node.name,
         },
+        metaFullHead: this._replaceHostNameForSeo(data.seo.fullHead)
       };
       return post;
     } catch {
@@ -107,35 +142,6 @@ class PostService {
     return allPageAndCategoryList;
   }
 
-  // static async getAllCategorySlugList(): Promise<
-  //   { params: { slug: string } }[]
-  // > {
-  //   try {
-  //     const res = await RepositoryFactory.post.getAllCategorySlugList();
-  //     return res.data.data.categories.edges.map((data: any) => ({
-  //       params: { slug: data.node.slug },
-  //     }));
-  //   } catch {
-  //     return [];
-  //   }
-  // }
-
-  // static async getAllPageList(): Promise<
-  //   {
-  //     params: {
-  //       page: string;
-  //     };
-  //   }[]
-  // > {
-  //   const total = await this.getTotal();
-  //   const pageTotal = Math.ceil(total / PostConst.sizePerPage);
-  //   const pageList = [...Array(pageTotal)].map((_, i) => i + 1); // [1,2,3,...]
-  //   const paths = pageList.map((page: number) => {
-  //     return { params: { page: page.toString() } };
-  //   });
-  //   return paths;
-  // }
-
   // デフォルト投稿の特定のカテゴリスラッグ(引数)からカテゴリIDを取得
   // ここで取得したIDは記事を情報の取得で使用する
   static async getCategoryIdBySlug({
@@ -160,10 +166,28 @@ class PostService {
       size: PostConst.sizePerPage,
     };
   }
-
   private static _makePageList(total: number) {
     const pageTotal = Math.ceil(total / PostConst.sizePerPage);
     return [...Array(pageTotal)].map((_, i) => i + 1); // [1,2,3,...]
+  }
+  // Yoast Seoのfullhead情報からホスト情報を書き換え
+  // card情報などはwordpressを参照させるため、書き換えない
+  private static _replaceHostNameForSeo(headStrign: string) {
+    const wpHost: string =
+      process.env.NEXT_PUBLIC_WP_HOSTNAME?.replace(
+        /[.*+?^${}()|[\]\\]/g,
+        "\\$&"
+      ) || "";
+    const nextHost: string =
+      process.env.NEXT_PUBLIC_HOSTNAME?.replace(
+        /[.*+?^${}()|[\]\\]/g,
+        "\\$&"
+      ) || "";
+    const changedHead = headStrign
+      .replace(new RegExp(wpHost + "/wp-content", "g"), "temp-host")
+      .replace(new RegExp(wpHost, "g"), nextHost)
+      .replace(new RegExp("temp-host", "g"), wpHost + "/wp-content");
+    return changedHead;
   }
 }
 

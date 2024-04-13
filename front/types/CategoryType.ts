@@ -1,6 +1,6 @@
 interface CategoryType {
-  slug: string
-  name: string
+  slug: string;
+  name: string;
 }
 
 export default CategoryType;

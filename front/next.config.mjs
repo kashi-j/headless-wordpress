@@ -10,7 +10,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: process.env.NEXT_PUBLIC_HOSTNAME,
+        hostname: process.env.NEXT_PUBLIC_WP_HOSTNAME,
       },
       {
         protocol: "https",

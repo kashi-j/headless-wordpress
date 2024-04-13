@@ -43,6 +43,18 @@ class PostRepository {
   static getTotal() {
     return Repository(WpGraphQlPostConst.total).getWp();
   }
+  // メタ情報を取得
+  static getSeo({ slug }: { slug: string }) {
+    return Repository(WpGraphQlPostConst.seoForPage, {
+      variables: { id: slug },
+    }).getWp();
+  }
+  // メタ情報を取得
+  static getSeoByCategorySlug({ slug }: { slug: string }) {
+    return Repository(WpGraphQlPostConst.seoForCategory, {
+      variables: { slug },
+    }).getWp();
+  }
 }
 
 export default PostRepository;

@@ -83,6 +83,9 @@ export class WpGraphQlPostConst {
     id
     slug
     title
+    seo {
+      fullHead
+    }
   `;
 
   // code投稿タイプ共通部分
@@ -127,6 +130,32 @@ export class WpGraphQlPostConst {
     id
     slug
     title
+  `;
+
+  // デフォルト投稿タイプ用
+  static seoForPage = `
+    query PageSeoQuery($id: ID!) {
+      page(id: $id, idType: URI) {
+        seo {
+          fullHead
+        }
+      }
+    }
+  `;
+
+  // デフォルト投稿タイプ用
+  static seoForCategory = `
+    query CategorySeoQuery($slug: [String]) {
+      categories(where: {slug: $slug}) {
+        edges {
+          node {
+            seo {
+              fullHead
+            }
+          }
+        }
+      }
+    }
   `;
 
   // デフォルト投稿タイプ用
