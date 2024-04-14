@@ -45,20 +45,17 @@ const Home: NextPage<{
   const fullHead = typeof seoInfo?.metaFullHead == "string" && parser(seoInfo.metaFullHead);
   return (
     <>
-      <Head>
-        {fullHead && fullHead}
-      </Head>
+      <Head>{fullHead && fullHead}</Head>
       <Layout>
         <main className={`${notoSansJP.className}`}>
-          <div className="flex flex-wrap w-main mx-auto">
-            {postList!.map((post) => (
-              <div
-                key={post.id}
-                className="w-1/3 pr-4 pb-4 [&:nth-of-type(3n)]:pr-0"
-              >
-                <PostBox post={post} postType="posts" />
-              </div>
-            ))}
+          <div className="w-main mx-auto">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-4">
+              {postList!.map((post) => (
+                <li key={post.id} className="">
+                  <PostBox post={post} postType="posts" key={post.id} />
+                </li>
+              ))}
+            </ul>
           </div>
           <Pagination
             total={total}
@@ -115,7 +112,6 @@ export async function getStaticProps({
   const [staticPostList, staticTotal] = await PostService.getList({
     page: currentPage,
   });
-
   return {
     props: {
       staticPostList,

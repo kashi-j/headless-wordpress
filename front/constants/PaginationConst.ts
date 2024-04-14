@@ -1,6 +1,6 @@
 class PaginationConst {
-  static allBox = 10
-  static breakPoint = 4
+  static allBox =4;
+  static breakPoint = 3;
 }
 
-export default PaginationConst
+export default PaginationConst;
