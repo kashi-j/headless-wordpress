@@ -55,12 +55,13 @@ class PostService {
         content: data.content,
         featuredImage: {
           url: data.featuredImage.node.sourceUrl,
+          alt: data.featuredImage.node.altText,
         },
         category: {
           slug: data.categories.edges[0].node.slug,
           name: data.categories.edges[0].node.name,
         },
-        metaFullHead: this._replaceHostNameForSeo(data.seo.fullHead)
+        metaFullHead: this._replaceHostNameForSeo(data.seo.fullHead),
       };
       return post;
     } catch {
@@ -91,6 +92,7 @@ class PostService {
           excerpt: data.node.excerpt,
           featuredImage: {
             url: data.node.featuredImage.node.sourceUrl,
+            alt: data.node.featuredImage.node.altText,
           },
           category: {
             slug: data.node.categories.edges[0].node.slug,

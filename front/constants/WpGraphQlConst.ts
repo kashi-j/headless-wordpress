@@ -14,6 +14,7 @@ export class WpGraphQlPostConst {
     featuredImage {
       node {
         sourceUrl
+        altText
       }
     }
     id
@@ -78,6 +79,7 @@ export class WpGraphQlPostConst {
     featuredImage {
       node {
         sourceUrl
+        altText
       }
     }
     id

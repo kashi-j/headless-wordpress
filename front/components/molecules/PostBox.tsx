@@ -13,8 +13,8 @@ const PostBox: React.FC<{ post: PostOnListType, postType: string }> = ({ post, p
       <Link href={`/${postType}/${post.slug}`}>
         <CommonImage
           src={post.featuredImage.url}
-          className="w-full h-48"
-          alt=""
+          className="w-full aspect-[4/3]"
+          alt={post.featuredImage.alt ?? ""}
         />
       </Link>
       <div className="py-4 px-5">
