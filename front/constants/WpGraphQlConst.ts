@@ -13,7 +13,7 @@ export class WpGraphQlPostConst {
     excerpt
     featuredImage {
       node {
-        sourceUrl
+        sourceUrl(size: MEDIUM_LARGE)
         altText
       }
     }
