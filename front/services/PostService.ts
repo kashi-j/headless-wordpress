@@ -16,7 +16,7 @@ class PostService {
       const seoInfo: SeoType = {
         metaFullHead: this._replaceHostNameForSeo(data.fullHead),
       };
-      return seoInfo
+      return seoInfo;
     } catch (error) {
       throw new Error("Failed to fetch SEO data");
     }
@@ -51,7 +51,7 @@ class PostService {
         id: data.id,
         title: data.title,
         slug: data.slug,
-        date: data.date,
+        date: this._formatDate(data.date),
         content: data.content,
         featuredImage: {
           url: data.featuredImage.node.sourceUrl,
@@ -88,7 +88,7 @@ class PostService {
           id: data.node.id,
           title: data.node.title,
           slug: data.node.slug,
-          date: data.node.date,
+          date: this._formatDate(data.node.date),
           excerpt: data.node.excerpt,
           featuredImage: {
             url: data.node.featuredImage.node.sourceUrl,
@@ -183,6 +183,15 @@ class PostService {
       .replace(new RegExp(wpHost, "g"), nextHost)
       .replace(new RegExp("temp-host", "g"), wpUrl + "/wp-content");
     return changedHead;
+  }
+  private static _formatDate(originDate: string) {
+    // Date オブジェクトに変換
+    const date = new Date(originDate);
+    // 年、月、日を取得し、希望の形式で文字列を作成
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}.${month}.${day}`;
   }
 }
 
