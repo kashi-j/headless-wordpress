@@ -82,7 +82,7 @@ export async function getStaticPaths() {
   const paths = await ManualService.getAllPageAndCategoryList();
   return {
     paths,
-    fallback: true,
+    fallback: false,
   };
 }
 
