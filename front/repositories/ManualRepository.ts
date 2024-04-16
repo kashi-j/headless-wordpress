@@ -10,7 +10,7 @@ class ManualRepository {
   }: {
     offsetPagination: OffsetPaginationType;
     categorySlug?: string;
-    }) {
+  }) {
     if (categorySlug) {
       let terms = categorySlug;
       return Repository(WpGraphQlPostConst.manualListBycategory, {
@@ -26,7 +26,9 @@ class ManualRepository {
   }
   // デフォルト投稿1件取得
   static getOne({ id }: { id: string }) {
-    return Repository(WpGraphQlPostConst.oneManual, { variables: { id } }).getWp();
+    return Repository(WpGraphQlPostConst.oneManual, {
+      variables: { id },
+    }).getWp();
   }
   // デフォルト投稿の特定カテゴリに該当する記事スラッグリスト取得
   static getAllSlugList() {
@@ -46,6 +48,18 @@ class ManualRepository {
   // デフォルト投稿の記事総数を取得
   static getTotal() {
     return Repository(WpGraphQlPostConst.manualTotal).getWp();
+  }
+  // メタ情報を取得
+  static getSeo({ slug }: { slug: string }) {
+    return Repository(WpGraphQlPostConst.seoForPage, {
+      variables: { id: slug },
+    }).getWp();
+  }
+  // メタ情報を取得
+  static getSeoByCategorySlug({ slug }: { slug: string }) {
+    return Repository(WpGraphQlPostConst.seoForManualCategory, {
+      variables: { slug },
+    }).getWp();
   }
 }
 

@@ -10,7 +10,7 @@ class CodeRepository {
   }: {
     offsetPagination: OffsetPaginationType;
     categorySlug?: string;
-    }) {
+  }) {
     if (categorySlug) {
       let terms = categorySlug;
       return Repository(WpGraphQlPostConst.codeListBycategory, {
@@ -26,7 +26,9 @@ class CodeRepository {
   }
   // デフォルト投稿1件取得
   static getOne({ id }: { id: string }) {
-    return Repository(WpGraphQlPostConst.oneCode, { variables: { id } }).getWp();
+    return Repository(WpGraphQlPostConst.oneCode, {
+      variables: { id },
+    }).getWp();
   }
   // デフォルト投稿の特定カテゴリに該当する記事スラッグリスト取得
   static getAllSlugList() {
@@ -46,6 +48,18 @@ class CodeRepository {
   // デフォルト投稿の記事総数を取得
   static getTotal() {
     return Repository(WpGraphQlPostConst.codeTotal).getWp();
+  }
+  // メタ情報を取得
+  static getSeo({ slug }: { slug: string }) {
+    return Repository(WpGraphQlPostConst.seoForPage, {
+      variables: { id: slug },
+    }).getWp();
+  }
+  // メタ情報を取得
+  static getSeoByCategorySlug({ slug }: { slug: string }) {
+    return Repository(WpGraphQlPostConst.seoForCodeCategory, {
+      variables: { slug },
+    }).getWp();
   }
 }
 

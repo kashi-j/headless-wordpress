@@ -35,13 +35,15 @@ export class WpGraphQlPostConst {
     excerpt
     featuredImage {
       node {
-        sourceUrl
+        sourceUrl(size: MEDIUM_LARGE)
+        altText
       }
     }
     id
     slug
     title
   `;
+
   // manual投稿タイプ共通部分
   private static _manualItemOnList = `
     manualCategories {
@@ -56,7 +58,8 @@ export class WpGraphQlPostConst {
     excerpt
     featuredImage {
       node {
-        sourceUrl
+        sourceUrl(size: MEDIUM_LARGE)
+        altText
       }
     }
     id
@@ -105,11 +108,15 @@ export class WpGraphQlPostConst {
     featuredImage {
       node {
         sourceUrl
+        altText
       }
     }
     id
     slug
     title
+    seo {
+      fullHead
+    }
   `;
 
   // manual投稿タイプ共通部分
@@ -127,14 +134,18 @@ export class WpGraphQlPostConst {
     featuredImage {
       node {
         sourceUrl
+        altText
       }
     }
     id
     slug
     title
+    seo {
+      fullHead
+    }
   `;
 
-  // デフォルト投稿タイプ用
+  // 固定ページ用
   static seoForPage = `
     query PageSeoQuery($id: ID!) {
       page(id: $id, idType: URI) {
@@ -149,6 +160,36 @@ export class WpGraphQlPostConst {
   static seoForCategory = `
     query CategorySeoQuery($slug: [String]) {
       categories(where: {slug: $slug}) {
+        edges {
+          node {
+            seo {
+              fullHead
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  // code投稿用
+  static seoForCodeCategory = `
+    query CategorySeoQuery($slug: [String]) {
+      codeCategories(where: {slug: $slug}) {
+        edges {
+          node {
+            seo {
+              fullHead
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  // manual投稿用
+  static seoForManualCategory = `
+    query CategorySeoQuery($slug: [String]) {
+      manualCategories(where: {slug: $slug}) {
         edges {
           node {
             seo {
@@ -243,24 +284,7 @@ export class WpGraphQlPostConst {
       ) {
         edges {
           node {
-            codeCategories {
-              edges {
-                node {
-                  name
-                  slug
-                }
-              }
-            }
-            date
-            excerpt
-            featuredImage {
-              node {
-                sourceUrl
-              }
-            }
-            id
-            slug
-            title
+            ${this._codeItemOnList}
           }
         }
         pageInfo {
@@ -280,24 +304,7 @@ export class WpGraphQlPostConst {
       ) {
         edges {
           node {
-            manualCategories {
-              edges {
-                node {
-                  name
-                  slug
-                }
-              }
-            }
-            date
-            content
-            featuredImage {
-              node {
-                sourceUrl
-              }
-            }
-            id
-            slug
-            title
+            ${this._manualItemOnList}
           }
         }
         pageInfo {

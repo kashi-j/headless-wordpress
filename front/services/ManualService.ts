@@ -4,10 +4,44 @@ import PostConst from "../constants/PostConst";
 import PostType from "../types/PostType";
 import PostOnListType from "../types/PostOnListType";
 import OffsetPaginationType from "../types/OffsetPaginationType";
+import SeoType from "../types/SeoType";
 // repository
 import RepositoryFactory from "../repositories/RepositoryFactory";
 
 class ManualService {
+  static async getSeo({ slug }: { slug: string }) {
+    try {
+      const res = await RepositoryFactory.manual.getSeo({ slug });
+      const data = res.data.data.page.seo;
+      const seoInfo: SeoType = {
+        metaFullHead: this._replaceHostNameForSeo(data.fullHead),
+      };
+      return seoInfo;
+    } catch (error) {
+      throw new Error("Failed to fetch SEO data");
+    }
+  }
+
+  static async getSeoByCategorySlug({
+    slug,
+  }: {
+    slug: string;
+  }): Promise<SeoType> {
+    try {
+      const res = await RepositoryFactory.manual.getSeoByCategorySlug({
+        slug,
+      });
+      const data = res.data.data.manualCategories.edges[0].node.seo;
+      const seoInfo: SeoType = {
+        metaFullHead: this._replaceHostNameForSeo(data.fullHead),
+      };
+      return seoInfo;
+    } catch (error) {
+      console.error("Error fetching SEO data:", error);
+      // エラーが発生した場合は適切なエラーを返す
+      throw new Error("Failed to fetch SEO data");
+    }
+  }
   // manual投稿1件取得
   static async getOne({ id }: { id: string }): Promise<PostType | null> {
     try {
@@ -17,15 +51,17 @@ class ManualService {
         id: data.id,
         title: data.title,
         slug: data.slug,
-        date: data.date,
+        date: this._formatDate(data.date),
         content: data.content,
         featuredImage: {
           url: data.featuredImage.node.sourceUrl,
+          alt: data.featuredImage.node.altText,
         },
         category: {
           slug: data.manualCategories.edges[0].node.slug,
           name: data.manualCategories.edges[0].node.name,
         },
+        metaFullHead: this._replaceHostNameForSeo(data.seo.fullHead),
       };
       return post;
     } catch {
@@ -54,10 +90,11 @@ class ManualService {
           id: data.node.id,
           title: data.node.title,
           slug: data.node.slug,
-          date: data.node.date,
+          date: this._formatDate(data.node.date),
           excerpt: data.node.excerpt,
           featuredImage: {
             url: data.node.featuredImage.node.sourceUrl,
+            alt: data.node.featuredImage.node.altText,
           },
           category: {
             slug: data.node.manualCategories.edges[0].node.slug,
@@ -137,6 +174,27 @@ class ManualService {
   private static _makePageList(total: number) {
     const pageTotal = Math.ceil(total / PostConst.sizePerPage);
     return [...Array(pageTotal)].map((_, i) => i + 1); // [1,2,3,...]
+  }
+  // Yoast Seoのfullhead情報からホスト情報を書き換え
+  // card情報などはwordpressを参照させるため、書き換えない
+  private static _replaceHostNameForSeo(headStrign: string) {
+    const wpUrl: string = process.env.NEXT_PUBLIC_WP_URL || "";
+    const wpHost: string = process.env.NEXT_PUBLIC_WP_HOSTNAME || "";
+    const nextHost: string = process.env.NEXT_PUBLIC_HOSTNAME || "";
+    const changedHead = headStrign
+      .replace(new RegExp(wpUrl + "/wp-content", "g"), "temp-host")
+      .replace(new RegExp(wpHost, "g"), nextHost)
+      .replace(new RegExp("temp-host", "g"), wpUrl + "/wp-content");
+    return changedHead;
+  }
+  private static _formatDate(originDate: string) {
+    // Date オブジェクトに変換
+    const date = new Date(originDate);
+    // 年、月、日を取得し、希望の形式で文字列を作成
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}.${month}.${day}`;
   }
 }
 

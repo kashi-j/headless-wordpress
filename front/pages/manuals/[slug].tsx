@@ -1,3 +1,4 @@
+import parser from "html-react-parser";
 // type
 import { NextPage } from "next";
 import PostType from "../../types/PostType";
@@ -14,48 +15,60 @@ import PostHeading from "../../components/atoms/text/PostHeading";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Loading from "../../components/molecules/Loading";
+import Head from "next/head";
+
 
 const Post: NextPage<{ slug: string; staticPost: PostType }> = ({
   slug,
   staticPost,
 }) => {
   const router = useRouter();
+  const fullHead =
+    typeof staticPost?.metaFullHead == "string" &&
+    parser(staticPost.metaFullHead);
   if (router.isFallback) {
     return (
-      <Layout>
-        <div className="w-main mx-auto">
-          <Loading></Loading>
-        </div>
-      </Layout>
+      <>
+        <Head>{fullHead && fullHead}</Head>
+        <Layout>
+          <div className="w-main mx-auto">
+            <Loading></Loading>
+          </div>
+        </Layout>
+      </>
     );
   }
   const post = useManualSwr({ id: slug, staticPost });
   return (
-    <Layout>
-      <div className="w-main mx-auto">
-        <article>
-          <div>
-            <CommonImage
-              src={post!.featuredImage.url}
-              alt=""
-              className="w-full h-96"
-            />
-          </div>
-          <div className="flex mb-4">
-            <div className="mr-3">
-              <Link href={`/category/${post!.category.slug}`}>
-                <CategoryLabel>{post!.category.name}</CategoryLabel>
-              </Link>
+    <>
+      <Head>{fullHead && fullHead}</Head>
+      <Layout>
+        <div className="w-main mx-auto">
+          <article>
+            <div>
+              <CommonImage
+                src={post!.featuredImage.url}
+                alt=""
+                className="w-full aspect-[4/3] md:aspect-video"
+                priority
+              />
             </div>
-            <DateText>{post!.date}</DateText>
-          </div>
-          <div className="mb-10">
-            <PostHeading>{post!.title}</PostHeading>
-          </div>
-          <div dangerouslySetInnerHTML={{ __html: post!.content }}></div>
-        </article>
-      </div>
-    </Layout>
+            <div className="flex mb-4">
+              <div className="mr-3">
+                <Link href={`/manuals/category/${post!.category.slug}`}>
+                  <CategoryLabel>{post!.category.name}</CategoryLabel>
+                </Link>
+              </div>
+              <DateText>{post!.date}</DateText>
+            </div>
+            <div className="mb-10">
+              <PostHeading>{post!.title}</PostHeading>
+            </div>
+            <div dangerouslySetInnerHTML={{ __html: post!.content }}></div>
+          </article>
+        </div>
+      </Layout>
+    </>
   );
 };
 
