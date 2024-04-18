@@ -1,8 +1,8 @@
 const Footer = () => {
   return (
-    <footer>
-      <div className="py-10 flex justify-center items-center">
-        <p>Copyright 〇〇</p>
+    <footer className="bg-gray-800">
+      <div className="py-8 flex justify-center items-center text-white">
+        <small>Copyright 〇〇</small>
       </div>
     </footer>
   )

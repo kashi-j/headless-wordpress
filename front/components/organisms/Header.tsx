@@ -25,15 +25,38 @@ const callsToAction = [
   { name: 'Contact sales', href: '#', icon: PhoneIcon },
 ]
 
+const navMenu = [
+  {
+    postType: null,
+    href: "/",
+    context: "TOP",
+  },
+  {
+    postType: "posts",
+    href: "/posts",
+    context: "Posts",
+  },
+  {
+    postType: "codes",
+    href: "/codes",
+    context: "Codes",
+  },
+  {
+    postType: "manuals",
+    href: "/manuals",
+    context: "Manuals",
+  },
+];
+
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-const Header = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+const Header = ({ currentPostType }: { currentPostType: string }) => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-white border-b-2 border-b-gray-200">
+    <header className="bg-white border-b-2 border-b-gray-200 md:sticky top-0 z-50">
       <nav
         className="mx-auto flex max-w-7xl items-center justify-end lg:justify-center p-3 lg:p-6 lg:pb-0 lg:px-8"
         aria-label="Global"
@@ -49,31 +72,16 @@ const Header = () => {
           </button>
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
-          <Link
-            href="/"
-            className="text-sm font-semibold leading-6 text-gray-900 pb-3 border-b-2 border-b-transparent hover:border-b-gray-800"
-          >
-            TOP
-          </Link>
-          <Link
-            href="/posts"
-            className="text-sm font-semibold leading-6 text-gray-900 pb-3 border-b-2 border-b-transparent hover:border-b-gray-800"
-          >
-            Posts
-          </Link>
-          <Link
-            href="/codes"
-            className="text-sm font-semibold leading-6 text-gray-900 pb-3 border-b-2 border-b-transparent hover:border-b-gray-800"
-          >
-            Codes
-          </Link>
-          <Link
-            href="/manuals"
-            className="text-sm font-semibold leading-6 text-gray-900 pb-3 border-b-2 border-b-transparent hover:border-b-gray-800"
-          >
-            Manuals
-          </Link>
-          <Popover className="relative pb-3 border-b-2 border-b-transparent hover:border-b-gray-800">
+          {navMenu.map((menu) => (
+            <Link
+              href={menu.href}
+              key={menu.href}
+              className={`px-4 text-sm font-semibold leading-6 text-gray-900 pb-3 border-b-2 border-b-transparent hover:border-b-gray-800 ${currentPostType === menu.postType ? "border-b-gray-800" : ""}`}
+            >
+              {menu.context}
+            </Link>
+          ))}
+          <Popover className="px-4 relative pb-3 border-b-2 border-b-transparent hover:border-b-gray-800">
             <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
               Product
               <ChevronDownIcon
@@ -221,6 +229,6 @@ const Header = () => {
       </Dialog>
     </header>
   );
-}
+};
 
 export default Header

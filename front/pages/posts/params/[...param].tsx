@@ -1,5 +1,5 @@
+import { useEffect, useState } from "react";
 import parser from "html-react-parser";
-import { Noto_Sans_JP } from "next/font/google";
 // const
 import PostConst from "../../../constants/PostConst";
 // type
@@ -16,8 +16,8 @@ import PostBox from "../../../components/molecules/PostBox";
 import Pagination from "../../../components/molecules/Pagination";
 import Head from "next/head"; // 追記
 import SiteInfoConst from "../../../constants/SiteInfoConst";
-
-const notoSansJP = Noto_Sans_JP({ subsets: ["latin"], weight: ["400"] });
+import { SkeletonCard } from "@/components/molecules/SkeletonCard";
+import ArticlePageHeading from "@/components/atoms/text/ArticlePageHeading";
 
 const Home: NextPage<{
   staticPostList: PostOnListType[];
@@ -34,6 +34,7 @@ const Home: NextPage<{
   staticCategorySlug,
   seoInfo,
 }) => {
+  const [isLoading, setLoading] = useState(true);
   const categoryId = staticCategoryId ?? undefined;
   const categorySlug = staticCategorySlug ?? undefined;
   const [postList, total] = usePostListSwr({
@@ -42,21 +43,38 @@ const Home: NextPage<{
     staticTotal,
     categoryId,
   });
-  const fullHead = typeof seoInfo?.metaFullHead == "string" && parser(seoInfo.metaFullHead);
+  const fullHead =
+    typeof seoInfo?.metaFullHead == "string" && parser(seoInfo.metaFullHead);
+  useEffect(() => {
+    if (!postList) return;
+    setLoading(false);
+  }, [postList]);
+
   return (
     <>
       <Head>{fullHead && fullHead}</Head>
-      <Layout>
-        <main className={`${notoSansJP.className}`}>
-          <div className="w-main mx-auto">
-            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-4">
-              {postList!.map((post) => (
-                <li key={post.id} className="">
-                  <PostBox post={post} postType="posts" key={post.id} />
-                </li>
-              ))}
-            </ul>
-          </div>
+      <Layout currentPostType="posts">
+        <div className="w-main mx-auto">
+          {staticCategorySlug && <ArticlePageHeading>カテゴリー：{staticCategorySlug}</ArticlePageHeading>}
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-6">
+            {isLoading
+              ? staticPostList!.map((post) => (
+                  <li key={post.id}>
+                    <SkeletonCard></SkeletonCard>
+                  </li>
+                ))
+              : postList!.map((post, index) => (
+                  <li key={post.id}>
+                    <PostBox
+                      post={post}
+                      postType="posts"
+                      postIndex={index}
+                      key={post.id}
+                    />
+                  </li>
+              ))
+            }
+          </ul>
           <Pagination
             total={total}
             sizePerPage={PostConst.sizePerPage}
@@ -67,7 +85,7 @@ const Home: NextPage<{
                 : "/posts/page"
             }
           />
-        </main>
+        </div>
       </Layout>
     </>
   );

@@ -17,7 +17,6 @@ import { useRouter } from "next/router";
 import Loading from "../../components/molecules/Loading";
 import Head from "next/head";
 
-
 const Post: NextPage<{ slug: string; staticPost: PostType }> = ({
   slug,
   staticPost,
@@ -42,7 +41,7 @@ const Post: NextPage<{ slug: string; staticPost: PostType }> = ({
   return (
     <>
       <Head>{fullHead && fullHead}</Head>
-      <Layout>
+      <Layout currentPostType="manuals">
         <div className="w-main mx-auto">
           <article>
             <div>
