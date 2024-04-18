@@ -31,17 +31,17 @@ const Pagination = ({
   const totalPage = Math.ceil(total / sizePerPage);
   const getPageNumber = (page: number | string, path: string) => {
       if (page === "...") {
-        return <span>...</span>;
+        return <span key="between">...</span>;
       }
       return (
         <Link
           href={`${path}/${page}`}
-          key={page}
+          key={`${path}/${page}`}
           className={`relative inline-flex items-center px-3 md:px-4 py-0 md:py-2 text-sm font-semibold focus:z-20
         ${
           currentPage == page
             ? "z-10 bg-gray-800 text-white  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
-            : "transition-colors duration-200 text-gray-800 hover:text-white ring-1 ring-inset ring-gray-800 hover:bg-gray-800  focus:outline-offset-0"
+            : " transition-colors duration-200 text-gray-800 hover:text-white ring-1 ring-inset ring-gray-800 bg-white hover:bg-gray-800  focus:outline-offset-0"
         }`}
         >
           {page}
@@ -82,7 +82,7 @@ const Pagination = ({
 
   return (
     <div
-      className={`flex items-center justify-between border-t border-gray-200 bg-white px-4 py-8 sm:px-6 ${
+      className={`flex items-center justify-between border-gray-200 bg-transparent px-4 py-8 sm:px-6 ${
         hideMt ? "" : "mt-8"
       }`}
     >
@@ -96,13 +96,18 @@ const Pagination = ({
               <>
                 <Link
                   href={`${path}/1`}
-                  className="relative inline-flex items-center px-2 py-2 text-gray-800 hover:text-white ring-1 ring-inset ring-gray-800 hover:bg-gray-800 focus:z-20 focus:outline-offset-0 transition-colors duration-200"
+                  key="first"
+                  className="relative inline-flex items-center px-2 py-2 text-gray-800 hover:text-white ring-1 ring-inset ring-gray-800 bg-white hover:bg-gray-800 focus:z-20 focus:outline-offset-0 transition-colors duration-200"
                 >
-                  <ChevronDoubleLeftIcon className="h-5 w-5" aria-hidden="true" />
+                  <ChevronDoubleLeftIcon
+                    className="h-5 w-5"
+                    aria-hidden="true"
+                  />
                 </Link>
                 <Link
+                  key="pre"
                   href={`${path}/${Math.max(1, currentPage - 1)}`}
-                  className="relative inline-flex items-center px-2 py-2 text-gray-800 hover:text-white ring-1 ring-inset ring-gray-800 hover:bg-gray-800 focus:z-20 focus:outline-offset-0 transition-colors duration-200"
+                  className="relative inline-flex items-center px-2 py-2 text-gray-800 hover:text-white ring-1 ring-inset ring-gray-800 bg-white hover:bg-gray-800 focus:z-20 focus:outline-offset-0 transition-colors duration-200"
                 >
                   <span className="sr-only">Previous</span>
                   <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
@@ -113,18 +118,22 @@ const Pagination = ({
             {currentPage !== totalPage && (
               <>
                 <Link
+                  key="after"
                   href={`${path}/${Math.min(totalPage, currentPage + 1)}`}
-                  className="relative inline-flex items-center px-2 py-2 text-gray-800 hover:text-white ring-1 ring-inset ring-gray-800 hover:bg-gray-800 focus:z-20 focus:outline-offset-0 transition-colors duration-200"
+                  className="relative inline-flex items-center px-2 py-2 text-gray-800 hover:text-white ring-1 ring-inset ring-gray-800 bg-white hover:bg-gray-800 focus:z-20 focus:outline-offset-0 transition-colors duration-200"
                 >
                   <span className="sr-only">Next</span>
                   <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
                 </Link>
-                {/* サイドのページ */}
                 <Link
+                  key="last"
                   href={`${path}/${totalPage}`}
-                  className="relative inline-flex items-center px-2 py-2 text-gray-800 hover:text-white ring-1 ring-inset ring-gray-800 hover:bg-gray-800 focus:z-20 focus:outline-offset-0 transition-colors duration-200"
+                  className="relative inline-flex items-center px-2 py-2 text-gray-800 hover:text-white ring-1 ring-inset ring-gray-800 bg-white hover:bg-gray-800 focus:z-20 focus:outline-offset-0 transition-colors duration-200"
                 >
-                  <ChevronDoubleRightIcon className="h-5 w-5" aria-hidden="true" />
+                  <ChevronDoubleRightIcon
+                    className="h-5 w-5"
+                    aria-hidden="true"
+                  />
                 </Link>
               </>
             )}

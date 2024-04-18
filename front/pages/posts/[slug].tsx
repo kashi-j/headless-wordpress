@@ -41,7 +41,7 @@ const Post: NextPage<{ slug: string; staticPost: PostType }> = ({
   return (
     <>
       <Head>{fullHead && fullHead}</Head>
-      <Layout>
+      <Layout currentPostType="posts">
         <div className="w-main mx-auto">
           <article>
             <div>
