@@ -76,7 +76,11 @@ const Header = ({ currentPostType }: { currentPostType: string }) => {
             <Link
               href={menu.href}
               key={menu.href}
-              className={`px-4 text-sm font-semibold leading-6 text-gray-900 pb-3 border-b-2 border-b-transparent hover:border-b-gray-800 ${currentPostType === menu.postType ? "border-b-gray-800" : ""}`}
+              className={`px-4 text-sm font-semibold leading-6 text-gray-900 pb-3 border-b-2  hover:border-b-gray-800 ${
+                currentPostType === menu.postType
+                  ? "border-b-gray-800"
+                  : "border-b-transparent"
+              }`}
             >
               {menu.context}
             </Link>
